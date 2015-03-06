@@ -8,10 +8,6 @@ EOF = -1
 
 class Lexer(object):
     EOF = -1
-    # No Comments, no brackets, braces, parens, but space
-    SPACE = ' '
-    UNDERSCORE = '_'
-    punctuation_marks = '#!"$%&\'*+,-./:;<=>?@\\^`|~'
     whitespace_no_break = '\x0b\x0c\t '
     german_letters = 'äöüÄÖÜß'
     letters = string.letters + german_letters # a-zA-Z
@@ -37,9 +33,6 @@ class Lexer(object):
 
     def is_letter(self, c):
         return c in self.letters
-
-    def is_text(self, c):
-        return c in (self.letters + self.punctuation_marks + self.SPACE)
 
     def is_digit(self, c):
         return c in string.digits

@@ -1,6 +1,6 @@
 # encoding: utf-8
 """
-I apologize for the name of this module. 'base' is just another weasel word. 
+I apologize for the name of this module. 'base' is just another weasel word.
 I would have called it parser, but Python started bitching because there already is a parser.py module in the standard lib.
 """
 
@@ -48,7 +48,7 @@ class Parser(object):
 
     ## Look Ahead Token
     def LT(self, i):
-        if i > self._k: 
+        if i > self._k:
             raise Exception("Trying to look further than the buffer can see")
         self.sync(i)
         return self.lookahead[(self._p + i - 1) % self._k]
@@ -58,9 +58,9 @@ class Parser(object):
 
     def peek(self, token_type):
         return self.next().is_a(token_type)
-    
+
     def peek_at(self, i, token_type):
-        return self.LT(i).is_a(token_type)    
+        return self.LT(i).is_a(token_type)
 
     def unexpected_token(self, token_type):
         message = ('\nError: Expecting <%s> but found <%s>\n')
