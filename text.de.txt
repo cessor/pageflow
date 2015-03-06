@@ -13,7 +13,7 @@ Hier sehen Sie eine in C# geschriebene Funktion. *Hinweis: Nicht aufregen*. Der 
 3. Ihre Aufgabe (:annotation)
 =============================
 Ihre Aufgabe ist es, einen Fehler im Code zu finden.
-Der Code kompiliert korrekt, aber er weist zur Laufzeit ein fehlerhaftes Verhalten auf. Jede Funktion hat nur einen Fehler.
+Der Code kompiliert korrekt, aber er weist zur Laufzeit ein fehlerhaftes Verhalten auf. Die Funktion hat nur einen Fehler.
 
 [Weiter]
 
@@ -27,7 +27,7 @@ Während der Studie sind vom Code sind nur einige Zeilen sichtbar, die restliche
 
 5. Fehler gefunden (:annotation)
 ================================
-Sobald Sie den Fehler gefunden haben, dann drücken Sie bitte die Leertaste.
+Sobald Sie den Fehler gefunden haben, drücken Sie die Leertaste.
 Zur Erinnerung wird die Steuerung am unteren Bildschirmrand eingeblendet.
 
     {KeyBoard}
@@ -60,7 +60,7 @@ Wenn Sie den Fehler nicht finden können, dann drücken Sie auf "Aufgeben".
 
 10. Zeitbegrenzung (:annotation)
 ================================
-Sie haben für das Auffinden des Fehlers 10 Minuten Zeit. Nach Ablauf der Zeit wird automatisch das nächste Problem angezeigt.
+Sie haben für das Auffinden des Fehlers 10 Minuten Zeit. Kurz vor dem Ende wird eine Warnung eingeblendet. Nach Ablauf der Zeit wird automatisch das nächste Durchgang angezeigt.
 
 [Weiter]
 
@@ -73,17 +73,17 @@ Insgesamt sehen Sie $number verschiedene Codes. Jeder behandelt ein anderes Prob
 12. Zusammenfassung
 ===================
 Zusammenfassend ist Ihre Aufgabe also:
- \- Aufgabe: Finden Sie einen semantischen Fehler
- \- Verschieben Sie den Code mit den Pfeiltasten
+ \- Finden Sie den Laufzeitfehler
+ \- Verschieben Sie den sichtbaren Bereich mit den Pfeiltasten
  \- Drücken Sie die Leertaste, wenn Sie den Fehler gefunden haben.
 
 [Weiter]
 
 13. Start
 =========
-Das Tutorial ist nun beendet. Es folgen nun $number echte Durchgänge.
+Die Einführung ist nun beendet. Es folgen nun $number echte Durchgänge.
 
-Achten Sie bitte auf eine störungsfreie Umgebung. Störungen können die Daten unbrauchbar machen. Schalten Sie ihr Handy aus, schließen Sie alle Messenger und Outlook und bitten Sie Ihre Kollegen, Sie nicht zu stören.
+Achten Sie bitte auf eine störungsfreie Umgebung. Störungen können die erhobenen Daten unbrauchbar machen. Schalten Sie ihr Handy aus, schließen Sie alle Messenger und Outlook und bitten Sie Ihre Kollegen, Sie nicht zu stören.
 
 [Start]
 
