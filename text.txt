@@ -4,29 +4,29 @@ Zur Einführung sehen Sie einige Erklärungen eingeblendet. Lesen Sie sich alles
 
 [Weiter]
 
-2. Erhebung
-===========
+2. Erhebung (:annotation)
+=========================
 Hier sehen Sie eine in C# geschriebene Funktion. *Hinweis: Nicht aufregen*. Der Code ist kommentiert. Der Zweck der Funktion steht in der ersten Kommentarzeile. Die restlichen Zeilen beinhalten eine Übersicht der im Code verwendeten Variablen.
 
 [Weiter]
 
-3. Ihre Aufgabe
-===============
+3. Ihre Aufgabe (:annotation)
+=============================
 Ihre Aufgabe ist es, einen Fehler im Code zu finden.
 Der Code kompiliert korrekt, aber er weist zur Laufzeit ein fehlerhaftes Verhalten auf. Jede Funktion hat nur einen Fehler.
 
 [Weiter]
 
-4. Fenster
-==========
+4. Fenster (:annotation)
+========================
 Während der Studie sind vom Code sind nur einige Zeilen sichtbar, die restlichen sind ausgeblendet. Sie können den sichtbaren Bereich mit den Pfeiltasten auf Ihrer Tastatur verschieben.
 
     {KeyBoard}
 
 <Verschieben>
 
-5. Fehler gefunden
-==================
+5. Fehler gefunden (:annotation)
+================================
 Sobald Sie den Fehler gefunden haben, dann drücken Sie bitte die Leertaste.
 Zur Erinnerung wird die Steuerung am unteren Bildschirmrand eingeblendet.
 
@@ -34,32 +34,32 @@ Zur Erinnerung wird die Steuerung am unteren Bildschirmrand eingeblendet.
 
 <Leertaste>
 
-6. Zeilennummer
-===============
+6. Zeilennummer (:annotation)
+=============================
 Wenn Sie den Fehler gefunden haben, dann geben Sie bitte die Zeilennummer an, in der sich der Fehler befindet.
 
 [Weiter]
 
-7. Beschreibung
-===============
+7. Beschreibung (:annotation)
+=============================
 Geben Sie bitte auch eine kurze Beschreibung des Fehlers an und erklären Sie, was genau falsch ist.
 
 [Weiter]
 
-8. Abschluss
-============
+8. Abschluss (:annotation)
+==========================
 Zum Abschluss des Durchgangs klicken Sie auf den "Gefunden"-Button. Durch den "Abbrechen" Button kehren Sie zum Code zurück.
 
 [Weiter]
 
-9. Aufgeben
-===========
+9. Aufgeben (:annotation)
+=========================
 Wenn Sie den Fehler nicht finden können, dann drücken Sie auf "Aufgeben".
 
 [Weiter]
 
-10. Zeitbegrenzung
-==================
+10. Zeitbegrenzung (:annotation)
+================================
 Sie haben für das Auffinden des Fehlers 10 Minuten Zeit. Nach Ablauf der Zeit wird automatisch das nächste Problem angezeigt.
 
 [Weiter]

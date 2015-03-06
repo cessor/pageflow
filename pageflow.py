@@ -226,6 +226,7 @@ def to_json(tree):
         dict(
             id=number.value,
             caption=head.value.strip(),
+            condition=(condition.value if condition else 'page'),
             text=[
                 paragraph.value.strip()
                 for paragraph
