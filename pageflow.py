@@ -1,7 +1,13 @@
-from basetoken import Token
 from baselexer import Lexer
 from baseparser import Parser
+from basetoken import Token
 import codecs
+import json
+
+import sys
+reload(sys)
+ENCODING = 'utf-8-sig'
+sys.setdefaultencoding(ENCODING)
 
 class Number(Token):
     def __init__(self, value):
@@ -78,7 +84,6 @@ class FlowLexer(Lexer):
 
     def _text(self):
         buffer_ = self.read(self._is_text)
-        buffer_ = buffer_.encode('utf-8')
         return Text(buffer_)
 
     def _variable(self):
@@ -129,8 +134,10 @@ class FlowLexer(Lexer):
             if self._current_character == '\\':
                 return self._text()
 
-            raise InvalidCharacter('%s (%s)' % (self._current_character, ord(self._current_character)))
+            raise InvalidCharacter('%s (%s)' % (self._current_character,
+                ord(self._current_character)))
         return EoF('EOF')
+
 
 class Expression(object):
     def __str__(self):
@@ -220,31 +227,49 @@ class PageFlowParser(Parser):
         if self.peek(Action):
             return self.match(Action)
 
-import sys
-pages = None
-with codecs.open('text.txt', 'r', 'utf-8-sig') as file_:
-    if 'stream' in sys.argv:
-        lex = FlowLexer(file_.read())
-        token = lex.next_token()
-        while not token.is_a(EoF):
-            print str(token).decode('utf-8-sig')
-            token = lex.next_token()
+def read_file(path):
+    with codecs.open(path, 'r', ENCODING) as file_:
+        return file_.read()
+
+def read(path):
+    file_ = read_file(path)
+    lexer = FlowLexer(file_)
+    parser = PageFlowParser(lexer)
+    return parser.parse()
+
+def write(string, path):
+    with codecs.open(path, 'w', ENCODING) as file_:
+        file_.write(string)
+
+def to_json(tree):
+    obj = [
+        dict(
+            id=number.value,
+            caption=head.value.strip(),
+            text=[
+                paragraph.value.strip()
+                for paragraph
+                in text
+            ],
+        interactions = [
+            dict(value=i.value, type=type(i).__name__)
+            for i
+            in interactions
+        ]
+    )
+    for (number,head,condition),line,text,interactions
+    in tree
+    ]
+    return json.dumps(obj, indent=4, encoding=ENCODING, ensure_ascii=False)
+
+if __name__ == '__main__':
+    if len(sys.argv) < 3:
+        print 'source, target'
         exit()
-    else:
-        parser = PageFlowParser(FlowLexer(file_.read()))
-        pages = parser.parse()
+    source = sys.argv[1]
+    target = sys.argv[2]
+    tree = read(source)
+    obj = to_json(tree)
+    write(obj, target)
 
-for (u,v,w),line,text,interactions in pages:
-    print
-    print u.value
-    print v.value
-    if w:
-        print 'IF:', w.value
-    print line.value * 20
-
-    for paragraph in text:
-        print paragraph.value.decode('utf-8-sig')
-
-    for interaction in interactions:
-        print
-        print '-->', interaction.value
+    #write(read_file(source), target)

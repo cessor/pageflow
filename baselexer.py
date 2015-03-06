@@ -1,4 +1,8 @@
 # encoding: utf-8
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 import string
 EOF = -1
 
@@ -32,21 +36,16 @@ class Lexer(object):
         raise Exception('Expecting %s but found %s' % (expected_character, self._current_character))
 
     def is_letter(self, c):
-        c = str(c)
         return c in self.letters
 
     def is_text(self, c):
-        c = str(c)
         return c in (self.letters + self.punctuation_marks + self.SPACE)
 
     def is_digit(self, c):
-        c = str(c)
         return c in string.digits
 
     def is_linebreak(self, c):
-        c = str(c)
         return c in '\r\n'
 
     def is_space(self, c):
-        c = str(c)
         return c in self.whitespace_no_break
