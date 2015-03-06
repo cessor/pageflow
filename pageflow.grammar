@@ -1,0 +1,16 @@
+Pages:          (Page LB)+
+Page:           Content Interaction+
+Content:        Head Line Body
+Interaction:    LB (Button | Image | Action)
+
+Button:         '[' Identifier ']'
+Image:          '{' Identifier '}'
+Action:         '<' Identifier '>'
+Condition:      '(' ':' Identifier ')'
+Head:           Number Text Condition? LB
+Variable        '$' Identifier
+
+Line:           ('=='|'--')+ LB
+Identifier:     'a-zA-Z'+
+LB:             '\n'
+Text:           'a-zA-Z0-9 -_' Variable?
