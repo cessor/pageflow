@@ -222,7 +222,7 @@ def write(string, path):
 
 
 def to_json(tree):
-    obj = [
+    obj = dict(data=[
         dict(
             id=number.value,
             caption=head.value.strip(),
@@ -240,7 +240,7 @@ def to_json(tree):
         )
         for (number, head, condition), line, text, interactions
         in tree
-    ]
+    ])
     return json.dumps(obj, indent=4, encoding=ENCODING, ensure_ascii=False)
 
 if __name__ == '__main__':
