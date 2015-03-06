@@ -142,76 +142,86 @@ class PageFlowParser(Parser):
 
     def match(self, token_type):
         token = self.next()
-        if token.is_a(LineBreak): print
-        else: print token
         super(PageFlowParser, self).match(token_type)
         return token
 
     def parse(self):
-        self.pages()
+        return self.pages()
 
     def pages(self):
-        self.page()
+        pages = []
+        pages.append(self.page())
         self.lb()
         while self.peek(Number):
-            self.page()
+            pages.append(self.page())
             self.lb()
+        return pages
 
     def page(self):
-        print
-        print
-        self.content()
-        self.interactions()
+        head,line,body = self.content()
+        return (
+            head,
+            line,
+            body,
+            self.interactions()
+        )
 
     def content(self):
-        self.head()
-        self.line()
-        self.body()
+        head = self.head()
+        line = self.line()
+        body = self.body()
+        return (head, line, body)
 
     def lb(self):
         while self.peek(LineBreak):
             self.consume()
 
     def body(self):
-        self.text()
+        paragraphs = []
+        paragraphs.append(self.text())
         self.lb()
         while self.peek(Text):
-            self.text()
+            paragraphs.append(self.text())
             self.lb()
+        return paragraphs
 
     def head(self):
-        self.match(Number)
-        self.text()
+        number = self.match(Number)
+        text = self.text()
+        condition = None
         if self.peek(Condition):
-            self.match(Condition)
+            condition = self.match(Condition)
         self.lb()
+        return (number, text, condition)
 
     def line(self):
-        self.match(Line)
+        line = self.match(Line)
         self.lb()
+        return line
 
     def text(self):
-        self.match(Text)
+        return self.match(Text)
 
     def interactions(self):
+        interactions_ = []
         self.lb()
-        self.interaction()
+        interactions_.append(self.interaction())
         self.lb()
         if self.peek(Button) or self.peek(Image) or self.peek(Action):
-            self.interaction()
+            interactions_.append(self.interaction())
             self.lb()
+        return interactions_
 
     def interaction(self):
-        print
         if self.peek(Button):
-            self.match(Button)
+            return self.match(Button)
         if self.peek(Image):
-            self.match(Image)
+            return self.match(Image)
         if self.peek(Action):
-            self.match(Action)
+            return self.match(Action)
 
 import sys
-
+pages = None
 with codecs.open('text.txt', 'r', 'utf-8-sig') as file_:
     if 'stream' in sys.argv:
         lex = FlowLexer(file_.read())
@@ -222,4 +232,19 @@ with codecs.open('text.txt', 'r', 'utf-8-sig') as file_:
         exit()
     else:
         parser = PageFlowParser(FlowLexer(file_.read()))
-        parser.parse()
+        pages = parser.parse()
+
+for (u,v,w),line,text,interactions in pages:
+    print
+    print u.value
+    print v.value
+    if w:
+        print 'IF:', w.value
+    print line.value * 20
+
+    for paragraph in text:
+        print paragraph.value.decode('utf-8-sig')
+
+    for interaction in interactions:
+        print
+        print '-->', interaction.value
