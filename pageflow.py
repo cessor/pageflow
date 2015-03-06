@@ -1,6 +1,6 @@
 from baselexer import Lexer
 from baseparser import Parser
-from basetoken import Token
+from pageflowtokens import *
 import codecs
 import json
 
@@ -9,21 +9,10 @@ reload(sys)
 ENCODING = 'utf-8-sig'
 sys.setdefaultencoding(ENCODING)
 
-class Number(Token):
-    def __init__(self, value):
-        super(Number, self).__init__(int(value))
 
-class Action(Token): pass
-class Button(Token): pass
-class Condition(Token): pass
-class EoF(Token): pass
-class Image(Token): pass
-class Line(Token): pass
-class LineBreak(Token): pass
-class Text(Token): pass
-class Unknown(Token): pass
+class InvalidCharacter(Exception):
+    pass
 
-class InvalidCharacter(Exception): pass
 
 class FlowLexer(Lexer):
     def __init__(self, file_):
@@ -94,6 +83,18 @@ class FlowLexer(Lexer):
     def _whitespace(self):
         self.read(self.is_space)
 
+    def match_character(self):
+        return {
+            '=': self._line,
+            '-': self._line_thin,
+            '[': self._button,
+            '{': self._image,
+            '<': self._action,
+            '(': self._condition,
+            '.': self._text,
+            '\\': self._text,
+        }.get(self._current_character, lambda: None)()
+
     def next_token(self):
         while self._current_character != Lexer.EOF:
             if self.is_space(self._current_character):
@@ -104,44 +105,19 @@ class FlowLexer(Lexer):
                 self.consume()
                 return LineBreak('\\n')
 
-            if self._current_character == '=':
-                return self._line()
-
-            if self._current_character == '-':
-                return self._line_thin()
-
             if self.is_letter(self._current_character):
                 return self._text()
 
             if self.is_digit(self._current_character):
                 return self._number()
 
-            if self._current_character == '[':
-                return self._button()
-
-            if self._current_character == '{':
-                return self._image()
-
-            if self._current_character == '<':
-                return self._action()
-
-            if self._current_character == '(':
-                return self._condition()
-
-            if self._current_character == '.':
-                return self._text()
-
-            if self._current_character == '\\':
-                return self._text()
-
-            raise InvalidCharacter('%s (%s)' % (self._current_character,
-                ord(self._current_character)))
+            known = self.match_character()
+            if not known:
+                message = '%s' % (self._current_character)
+                raise InvalidCharacter(message)
+            return known
         return EoF('EOF')
 
-
-class Expression(object):
-    def __str__(self):
-        return type(self).__name__
 
 class PageFlowParser(Parser):
     def __init__(self, lexer):
@@ -165,7 +141,7 @@ class PageFlowParser(Parser):
         return pages
 
     def page(self):
-        head,line,body = self.content()
+        head, line, body = self.content()
         return (
             head,
             line,
@@ -227,9 +203,11 @@ class PageFlowParser(Parser):
         if self.peek(Action):
             return self.match(Action)
 
+
 def read_file(path):
     with codecs.open(path, 'r', ENCODING) as file_:
         return file_.read()
+
 
 def read(path):
     file_ = read_file(path)
@@ -237,9 +215,11 @@ def read(path):
     parser = PageFlowParser(lexer)
     return parser.parse()
 
+
 def write(string, path):
     with codecs.open(path, 'w', ENCODING) as file_:
         file_.write(string)
+
 
 def to_json(tree):
     obj = [
@@ -251,25 +231,28 @@ def to_json(tree):
                 for paragraph
                 in text
             ],
-        interactions = [
-            dict(value=i.value, type=type(i).__name__)
-            for i
-            in interactions
-        ]
-    )
-    for (number,head,condition),line,text,interactions
-    in tree
+            interactions=[
+                dict(value=i.value, type=type(i).__name__)
+                for i
+                in interactions
+            ]
+        )
+        for (number, head, condition), line, text, interactions
+        in tree
     ]
     return json.dumps(obj, indent=4, encoding=ENCODING, ensure_ascii=False)
 
 if __name__ == '__main__':
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         print 'source, target'
         exit()
     source = sys.argv[1]
-    target = sys.argv[2]
+
     tree = read(source)
     obj = to_json(tree)
-    write(obj, target)
 
-    #write(read_file(source), target)
+    if len(sys.argv) == 3:
+        target = sys.argv[2]
+        write(obj, target)
+    else:
+        sys.stdout.write(obj)
