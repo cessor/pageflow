@@ -68,8 +68,11 @@ class FlowLexer(Lexer):
         return Number(buffer_)
 
     def _is_text(self, c):
-        # not lb, not condition, not variable
         return (c not in '\n(')
+
+    def _skip_one(self):
+        self.consume()
+        return self._text()
 
     def _text(self):
         buffer_ = self.read(self._is_text)
@@ -92,7 +95,7 @@ class FlowLexer(Lexer):
             '<': self._action,
             '(': self._condition,
             '.': self._text,
-            '\\': self._text,
+            '\\': self._skip_one,
         }.get(self._current_character, lambda: None)()
 
     def next_token(self):
@@ -233,7 +236,7 @@ def to_json(tree):
                 in text
             ],
             interactions=[
-                dict(value=i.value, type=type(i).__name__)
+                dict(value=i.value, type=type(i).__name__.lower())
                 for i
                 in interactions
             ]
