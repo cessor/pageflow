@@ -27,7 +27,7 @@ class FlowLexer(Lexer):
 
     def _wrapped(self, head, tail):
         self.match(head)
-        buffer_ = self.read(self.is_letter)
+        buffer_ = self.read(lambda c: self.is_letter(c) or c == ' ')
         self.match(tail)
         return buffer_
 
